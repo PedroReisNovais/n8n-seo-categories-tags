@@ -1,0 +1,331 @@
+{
+  "name": "Seo Categories Tags (Template Sanitizado)",
+  "nodes": [
+    {
+      "parameters": {},
+      "name": "Executar",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        3960,
+        2000
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## TROQUE OS DADOS",
+        "height": 306,
+        "width": 267
+      },
+      "name": "Sticky Note3",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        4160,
+        1900
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "name": "Planilha ID",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "name": "URL do Site",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "name": "Planilha Aba Categorias",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "name": "Planilha Aba Tags",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "variaveis",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [
+        4240,
+        2000
+      ]
+    },
+    {
+      "parameters": {
+        "content": "Configure o **Timezone** nos 3 pontinhos ao lado do save antes de ativar",
+        "height": 220.4568364843337,
+        "width": 184.478415473571
+      },
+      "name": "Sticky Note1",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        3920,
+        1740
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Google Sheets\nSelecione apenas a **Credencial** do Google Sheets\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n❌ [**Erros Comuns do Google Sheets**](https://example.invalid/replace-with-your-endpoint",
+        "height": 547,
+        "width": 345
+      },
+      "name": "Sticky Note19",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        4840,
+        1900
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://example.invalid/replace-with-your-endpoint",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "wordpressApi",
+        "sendQuery": true,
+        "queryParameters": "REPLACE_WITH_YOUR_REQUEST_CONFIGURATION",
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "name": "Wordpress - Categorias",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        4560,
+        2000
+      ],
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000
+    },
+    {
+      "parameters": {
+        "url": "https://example.invalid/replace-with-your-endpoint",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "wordpressApi",
+        "sendQuery": true,
+        "queryParameters": "REPLACE_WITH_YOUR_REQUEST_CONFIGURATION",
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "name": "Wordpress - Tags",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        4560,
+        2220
+      ],
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": "REPLACE_WITH_DOCUMENT_ID",
+        "sheetName": {
+          "__rl": true,
+          "value": "={{ $node['variaveis'].json[\"Planilha Aba Categorias\"] }}",
+          "mode": "id"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Categorias": "={{ $('Wordpress - Categorias').item.json.id }} - {{ $('Wordpress - Categorias').item.json.name }}"
+          },
+          "matchingColumns": [
+            "Categorias"
+          ],
+          "schema": [
+            {
+              "displayName": "Categorias",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Google Sheets - Atualizar categorias",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [
+        4960,
+        2000
+      ],
+      "retryOnFail": true,
+      "maxTries": null,
+      "waitBetweenTries": 5000,
+      "executeOnce": false
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": "REPLACE_WITH_DOCUMENT_ID",
+        "sheetName": {
+          "__rl": true,
+          "value": "={{ $node['variaveis'].json[\"Planilha Aba Tags\"] }}",
+          "mode": "id"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [
+            "Tags"
+          ],
+          "schema": [
+            {
+              "displayName": "Tags",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Google Sheets - Atualizar tags",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [
+        4960,
+        2220
+      ],
+      "retryOnFail": true,
+      "maxTries": null,
+      "waitBetweenTries": 5000
+    },
+    {
+      "parameters": {
+        "content": "## Wordpress\nSelecione as credenciais do Wordpress\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n❌ [**Erros Comuns do Wordpress**](https://example.invalid/replace-with-your-endpoint",
+        "height": 553,
+        "width": 349
+      },
+      "name": "Sticky Note31",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        4460,
+        1900
+      ]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "weeks",
+              "weeksInterval": "={{ 1 }}",
+              "triggerAtHour": 11,
+              "triggerAtMinute": "={{ 0 }}"
+            }
+          ]
+        }
+      },
+      "name": "Toda semana",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        3960,
+        1820
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Executar": {
+      "main": [
+        [
+          {
+            "node": "variaveis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "variaveis": {
+      "main": [
+        [
+          {
+            "node": "Wordpress - Categorias",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Wordpress - Tags",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wordpress - Tags": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets - Atualizar tags",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wordpress - Categorias": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets - Atualizar categorias",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Toda semana": {
+      "main": [
+        [
+          {
+            "node": "variaveis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "America/Sao_Paulo",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "versionId": "286ebdb1-ce08-4fREPLACE_WITH_TEST_PHONEb80eec"
+}
+
